@@ -109,7 +109,11 @@ module.exports = class PeticaoController {
         try{
             req.body.criadoPor = req.userId;
             const peticaoAtualizada = await PeticaoModel.alterarPeticao(req.params.id, req.body);
-            res.status(200).json(peticaoAtualizada);
+            
+            if(peticaoAtualizada.value == null){
+                throw new Error("A petição não pode ser alterada por esse usuario");
+            };
+            res.status(200).json(peticaoAtualizada.value);
         }catch(error){
             console.log("Erro ao Atualizar >>> ", error);
             res.status(500).json({error:error});

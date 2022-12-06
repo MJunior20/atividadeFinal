@@ -42,11 +42,9 @@ module.exports = class PeticaoModel {
                 dataCriacao: data.dataCriacao, criadoPor: data.criadoPor}
             
             const peticao = await client.db("atividadeFinal").collection("peticoes").findOneAndUpdate({_id: peticaoId, criadoPor: data.criadoPor},{ $set: peticaoAlterada});
-            if(!peticao.lastErrorObject.updatedExisting){
-                throw new Error("A petição não pode ser alterada por esse usuario");
-            }
             
-            return peticaoAlterada;
+            
+            return peticao;
         } catch (error) {
             console.log(`[Alterar Petição] Update Error: ${error}`);
         }
